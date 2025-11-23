@@ -440,12 +440,11 @@ class MainWindow(QMainWindow):
                 self.log_message(f"📁 Папка выбрана: {folderpath}")
                 self.log_message(f"📊 Загружено записей: {record_count}")
                 self.log_message(f"📅 Диапазон дат: {date_range}")
-
                 # Автоматически инициализируем анализатор
                 self.initialize_analyzer()
             else:
                 self.log_message(
-                    "❌ В выбранной папке нет dataset.csv или ошибка загрузки"
+                    " В выбранной папке нет dataset.csv или ошибка загрузки"
                 )
 
             self.update_buttons_state()
@@ -571,7 +570,7 @@ class MainWindow(QMainWindow):
             result = data_processor.create_annotation(filepath, data_type)
             if "error" in result:
                 QMessageBox.critical(self, "Ошибка", result["error"])
-                self.log_message(f"❌ {result['error']}")
+                self.log_message(f" {result['error']}")
             else:
                 QMessageBox.information(self, "Успех", result["message"])
                 self.log_message(f"📄 {result['message']}")
@@ -597,16 +596,16 @@ class MainWindow(QMainWindow):
 
         if reply == QMessageBox.Yes:
             self.log_message(
-                f"⏳ Загрузка данных с {start_date.strftime('%Y-%m-%d')} по {end_date.strftime('%Y-%m-%d')}..."
+                f" Загрузка данных с {start_date.strftime('%Y-%m-%d')} по {end_date.strftime('%Y-%m-%d')}..."
             )
             result = data_processor.download_new_data(start_date, end_date)
 
             if "error" in result:
                 QMessageBox.critical(self, "Ошибка", result["error"])
-                self.log_message(f"❌ {result['error']}")
+                self.log_message(f" {result['error']}")
             else:
                 QMessageBox.information(self, "Успех", result["message"])
-                self.log_message(f"✅ {result['message']}")
+                self.log_message(f" {result['message']}")
                 self.update_buttons_state()
 
     def demo_search_versions_ui(self):
@@ -650,17 +649,17 @@ class MainWindow(QMainWindow):
                 self.analyzer = DataAnalyzer(data_processor)
                 self.analyzer_status.setText("Статус: Инициализирован успешно")
                 self.analyzer_status.setStyleSheet("color: green; font-weight: bold;")
-                self.log_analysis("✅ Анализатор данных инициализирован успешно")
+                self.log_analysis(" Анализатор данных инициализирован успешно")
                 self.update_analysis_buttons(True)
             else:
                 self.analyzer_status.setText("Статус: Данные не загружены")
                 self.analyzer_status.setStyleSheet("color: red; font-weight: bold;")
                 self.log_analysis(
-                    "❌ Не удалось инициализировать анализатор: данные не загружены"
+                    " Не удалось инициализировать анализатор: данные не загружены"
                 )
         except Exception as e:
             self.analyzer_status.setText(f"Статус: Ошибка инициализации")
-            self.log_analysis(f"❌ Ошибка инициализации анализатора: {str(e)}")
+            self.log_analysis(f" Ошибка инициализации анализатора: {str(e)}")
 
     def check_missing_values(self):
         """Проверка пропущенных значений"""
@@ -669,9 +668,9 @@ class MainWindow(QMainWindow):
 
         try:
             missing_stats = self.analyzer.check_missing_values()
-            self.log_analysis("✅ Проверка пропущенных значений завершена")
+            self.log_analysis(" Проверка пропущенных значений завершена")
         except Exception as e:
-            self.log_analysis(f"❌ Ошибка проверки пропущенных значений: {str(e)}")
+            self.log_analysis(f" Ошибка проверки пропущенных значений: {str(e)}")
 
     def add_deviation_columns(self):
         """Добавление столбцов с отклонениями"""
@@ -680,9 +679,9 @@ class MainWindow(QMainWindow):
 
         try:
             self.analyzer.add_deviation_columns()
-            self.log_analysis("✅ Столбцы с отклонениями добавлены")
+            self.log_analysis(" Столбцы с отклонениями добавлены")
         except Exception as e:
-            self.log_analysis(f"❌ Ошибка добавления столбцов: {str(e)}")
+            self.log_analysis(f" Ошибка добавления столбцов: {str(e)}")
 
     def calculate_statistics(self):
         """Расчет статистик"""
@@ -691,9 +690,9 @@ class MainWindow(QMainWindow):
 
         try:
             stats = self.analyzer.calculate_statistics()
-            self.log_analysis("✅ Статистики рассчитаны")
+            self.log_analysis(" Статистики рассчитаны")
         except Exception as e:
-            self.log_analysis(f"❌ Ошибка расчета статистик: {str(e)}")
+            self.log_analysis(f" Ошибка расчета статистик: {str(e)}")
 
     def filter_by_deviation(self):
         """Фильтрация по отклонению"""
@@ -703,14 +702,14 @@ class MainWindow(QMainWindow):
         try:
             threshold = float(self.deviation_input.text())
             filtered_df = self.analyzer.filter_by_deviation(threshold)
-            self.log_analysis(f"✅ Фильтрация по отклонению >= {threshold} завершена")
+            self.log_analysis(f" Фильтрация по отклонению >= {threshold} завершена")
             self.log_analysis(f"   Найдено записей: {len(filtered_df)}")
         except ValueError:
             self.log_analysis(
-                "❌ Ошибка: введите числовое значение для порога отклонения"
+                " Ошибка: введите числовое значение для порога отклонения"
             )
         except Exception as e:
-            self.log_analysis(f"❌ Ошибка фильтрации: {str(e)}")
+            self.log_analysis(f" Ошибка фильтрации: {str(e)}")
 
     def filter_by_date_range(self):
         """Фильтрация по дате"""
@@ -723,11 +722,11 @@ class MainWindow(QMainWindow):
 
             filtered_df = self.analyzer.filter_by_date_range(start_date, end_date)
             self.log_analysis(
-                f"✅ Фильтрация по датам {start_date} - {end_date} завершена"
+                f" Фильтрация по датам {start_date} - {end_date} завершена"
             )
             self.log_analysis(f"   Найдено записей: {len(filtered_df)}")
         except Exception as e:
-            self.log_analysis(f"❌ Ошибка фильтрации по дате: {str(e)}")
+            self.log_analysis(f" Ошибка фильтрации по дате: {str(e)}")
 
     def group_by_month(self):
         """Группировка по месяцам"""
@@ -736,21 +735,25 @@ class MainWindow(QMainWindow):
 
         try:
             monthly_data = self.analyzer.group_by_month()
-            self.log_analysis("✅ Группировка по месяцам завершена")
+            self.log_analysis(" Группировка по месяцам завершена")
             self.log_analysis(f"   Сгруппировано месяцев: {len(monthly_data)}")
         except Exception as e:
-            self.log_analysis(f"❌ Ошибка группировки: {str(e)}")
+            self.log_analysis(f" Ошибка группировки: {str(e)}")
 
     def plot_full_period(self):
-        """Построение графика за весь период"""
         if not self.check_analyzer():
             return
 
+        # ДЛЯ ОТЛАДКИ - проверим откуда данные
+        print(
+            f"Диапазон дат в анализаторе: {self.analyzer.df['date'].min()} - {self.analyzer.df['date'].max()}"
+        )
+        print(f"Количество записей: {len(self.analyzer.df)}")
         try:
             self.analyzer.plot_full_period()
-            self.log_analysis("✅ График за весь период построен")
+            self.log_analysis(" График за весь период построен")
         except Exception as e:
-            self.log_analysis(f"❌ Ошибка построения графика: {str(e)}")
+            self.log_analysis(f" Ошибка построения графика: {str(e)}")
 
     def plot_monthly_analysis(self):
         """Построение графика за месяц"""
@@ -760,9 +763,9 @@ class MainWindow(QMainWindow):
         try:
             month_str = self.month_input.text()
             self.analyzer.plot_monthly_analysis(month_str)
-            self.log_analysis(f"✅ График за месяц {month_str} построен")
+            self.log_analysis(f" График за месяц {month_str} построен")
         except Exception as e:
-            self.log_analysis(f"❌ Ошибка построения графика за месяц: {str(e)}")
+            self.log_analysis(f" Ошибка построения графика за месяц: {str(e)}")
 
     def check_analyzer(self):
         """Проверка инициализации анализатора"""
